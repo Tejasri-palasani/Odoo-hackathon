@@ -4,9 +4,32 @@ const { PrismaClient } = require('@prisma/client');
 const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const cookieParser = require('cookie-parser');
+const http = require('http');
+const { Server } = require('socket.io');
 
 const app = express();
 const prisma = new PrismaClient({});
+
+const server = http.createServer(app);
+const io = new Server(server, {
+  cors: {
+    origin: ['http://localhost:5173', 'http://localhost:5174'],
+    credentials: true,
+  }
+});
+app.set('io', io);
+
+io.on('connection', (socket) => {
+  console.log('User connected to socket:', socket.id);
+  
+  socket.on('join-trip', (tripId) => {
+    socket.join(tripId);
+  });
+  
+  socket.on('leave-trip', (tripId) => {
+    socket.leave(tripId);
+  });
+});
 
 // In a real app this should be in .env
 const JWT_SECRET = process.env.JWT_SECRET || 'super-secret-jwt-key-for-hackathon';
@@ -213,12 +236,16 @@ app.put('/api/user/profile', async (req, res) => {
 const checklistRoutes = require('./routes/checklist');
 const journalRoutes = require('./routes/journal');
 const budgetRoutes = require('./routes/budget');
+const tripRoutes = require('./routes/trips');
+const userRoutes = require('./routes/users');
 
 app.use('/api/checklists', checklistRoutes);
 app.use('/api/journals', journalRoutes);
 app.use('/api/budgets', budgetRoutes);
+app.use('/api/trips', tripRoutes);
+app.use('/api/users', userRoutes);
 
 const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => {
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });

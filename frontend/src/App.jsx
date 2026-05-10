@@ -10,6 +10,7 @@ import PublishTripPage from './pages/PublishTripPage';
 import ChecklistWorkspace from './pages/ChecklistWorkspace';
 import CollaborationModal from './components/CollaborationModal';
 import AuthPage from './pages/AuthPage';
+import CreateTripPage from './pages/CreateTripPage';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
 
@@ -37,6 +38,7 @@ function App() {
         <Route path="/completed/:id" element={<CompletedTripPage />} />
         <Route path="/publish" element={<PublishTripPage />} />
         <Route path="/checklist" element={<ChecklistWorkspace />} />
+        <Route path="/create-trip" element={<CreateTripPage />} />
       </Routes>
     </div>
   );

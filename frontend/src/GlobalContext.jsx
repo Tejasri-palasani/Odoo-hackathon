@@ -1,4 +1,5 @@
 import React, { createContext, useState, useContext, useEffect } from 'react';
+import { io } from 'socket.io-client';
 import './components/Toast.css';
 
 const GlobalContext = createContext();
@@ -62,6 +63,45 @@ export const GlobalProvider = ({ children }) => {
     };
     fetchProfile();
   }, []);
+
+  // Fetch Trips
+  const fetchTrips = async () => {
+    try {
+      const response = await fetch('http://localhost:5000/api/trips', {
+        credentials: 'omit' // use browser default for now if CORS allows, else include if cookies needed
+      });
+      if (response.ok) {
+        const data = await response.json();
+        if (data && data.length > 0) {
+          setCompletedTrips(data.filter(t => t.status === 'Completed'));
+          setWishlistTrips(data.filter(t => t.status !== 'Completed'));
+        }
+      }
+    } catch (error) {
+      console.error('Failed to fetch trips:', error);
+    }
+  };
+
+  useEffect(() => {
+    if (userProfile) {
+      fetchTrips();
+      
+      const newSocket = io('http://localhost:5000', {
+        withCredentials: true
+      });
+      
+      newSocket.on(`new-trip-${userProfile.id}`, (newTrip) => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message: `You were invited to trip: ${newTrip.title}`, type: 'success' }]);
+        setTimeout(() => {
+          setToasts(prev => prev.filter(t => t.id !== id));
+        }, 5000);
+        fetchTrips();
+      });
+
+      return () => newSocket.close();
+    }
+  }, [userProfile]);
 
   const [notificationSettings, setNotificationSettings] = useState(() => loadState('notifSettings', {
     email: true, push: true, invites: true, community: false, likes: true,

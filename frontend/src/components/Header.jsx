@@ -1,16 +1,16 @@
 import React from 'react';
 import { Plus, Bell, Settings as SettingsIcon, User } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useGlobalContext } from '../GlobalContext';
 import './Header.css'; // We'll create scoped CSS or use the global utilities
 
 const Header = () => {
-  const { setIsModalOpen } = useGlobalContext();
+  const navigate = useNavigate();
 
   return (
     <header className="header glass">
       <div className="header-left">
-        <button className="btn-primary" onClick={() => setIsModalOpen(true)}>
+        <button className="btn-primary" onClick={() => navigate('/create-trip')}>
           <Plus size={20} />
           <span>New Trip</span>
         </button>
