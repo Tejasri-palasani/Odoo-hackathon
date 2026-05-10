@@ -1,0 +1,164 @@
+/* Shared Cards CSS */
+.card-img-container {
+  position: relative;
+  width: 100%;
+  height: 200px;
+  overflow: hidden;
+  border-top-left-radius: 16px;
+  border-top-right-radius: 16px;
+}
+
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+
+.glass-card:hover .card-img {
+  transform: scale(1.1);
+}
+
+.card-content {
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.card-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-primary);
+}
+
+.icon-inline {
+  color: var(--accent-color);
+}
+
+.text-yellow {
+  color: #fbbf24;
+}
+
+/* Badges */
+.status-badge, .trending-badge, .rating-badge, .author-badge {
+  position: absolute;
+  padding: 0.4rem 0.8rem;
+  border-radius: 9999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.status-badge {
+  top: 1rem;
+  right: 1rem;
+}
+
+.trending-badge {
+  top: 1rem;
+  left: 1rem;
+  background: rgba(239, 68, 68, 0.8); /* Red tint for trending */
+}
+
+.rating-badge {
+  top: 1rem;
+  right: 1rem;
+}
+
+.author-badge {
+  bottom: 1rem;
+  left: 1rem;
+  padding: 0.25rem 0.75rem 0.25rem 0.25rem;
+}
+
+.author-avatar {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+/* Trip Card Specifics */
+.card-details {
+  display: flex;
+  justify-content: space-between;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.detail-item {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+/* Trending Card Specifics */
+.card-desc {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.4;
+  margin: 0;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.5rem;
+}
+
+.cost-tag {
+  font-weight: 700;
+  font-size: 1.2rem;
+  color: var(--accent-color);
+}
+
+.btn-small {
+  padding: 0.5rem 1rem;
+  font-size: 0.9rem;
+}
+
+/* Community Card Specifics */
+.community-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 0.5rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--glass-border);
+}
+
+.action-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.9rem;
+  transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.action-btn:hover {
+  color: var(--accent-color);
+  transform: scale(1.1);
+}
+
+.action-right {
+  margin-left: auto;
+  display: flex;
+  gap: 1rem;
+}

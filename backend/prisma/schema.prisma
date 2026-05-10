@@ -1,0 +1,195 @@
+generator client {
+  provider = "prisma-client-js"
+  engineType = "library"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id             String          @id @default(uuid())
+  email          String          @unique
+  username       String          @unique
+  password       String
+  name           String
+  phoneNumber    String?
+  country        String?
+  dob            String?
+  gender         String?
+  avatar         String?
+  bio            String?
+  createdAt      DateTime        @default(now())
+  updatedAt      DateTime        @updatedAt
+  trips          Trip[]          @relation("UserTrips")
+  collaborations TripCollaborator[]
+  posts          CommunityPost[]
+  uploadedPhotos UploadedPhoto[]
+  journals       TravelJournal[]
+}
+
+model Trip {
+  id            String             @id @default(uuid())
+  title         String
+  destination   String
+  duration      String
+  budget        Float
+  status        String             // "Wishlist", "Planned", "Completed"
+  category      String
+  coverImage    String?
+  createdAt     DateTime           @default(now())
+  updatedAt     DateTime           @updatedAt
+  ownerId       String
+  owner         User               @relation("UserTrips", fields: [ownerId], references: [id])
+  collaborators TripCollaborator[]
+  stops         TripStop[]
+  expenses      Expense[]
+  reviews       Review[]
+}
+
+model TripCollaborator {
+  id        String   @id @default(uuid())
+  role      String   // "Admin", "Editor", "Viewer"
+  tripId    String
+  userId    String
+  trip      Trip     @relation(fields: [tripId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@unique([tripId, userId])
+}
+
+model TripStop {
+  id          String     @id @default(uuid())
+  city        String
+  arrival     DateTime
+  departure   DateTime
+  transport   String
+  order       Int
+  tripId      String
+  trip        Trip       @relation(fields: [tripId], references: [id])
+  activities  Activity[]
+}
+
+model Activity {
+  id          String   @id @default(uuid())
+  title       String
+  cost        Float
+  category    String
+  stopId      String
+  stop        TripStop @relation(fields: [stopId], references: [id])
+}
+
+model Expense {
+  id          String   @id @default(uuid())
+  category    String
+  amount      Float
+  tripId      String
+  trip        Trip     @relation(fields: [tripId], references: [id])
+}
+
+model UploadedPhoto {
+  id        String   @id @default(uuid())
+  url       String
+  tripId    String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  rating    Int
+  comment   String
+  tripId    String
+  trip      Trip     @relation(fields: [tripId], references: [id])
+}
+
+model CommunityPost {
+  id          String   @id @default(uuid())
+  title       String
+  content     String
+  image       String?
+  likes       Int      @default(0)
+  comments    Int      @default(0)
+  authorId    String
+  author      User     @relation(fields: [authorId], references: [id])
+  createdAt   DateTime @default(now())
+}
+
+// ================= CHECKLIST MODULE =================
+model TripChecklist {
+  id        String   @id @default(uuid())
+  tripId    String   @unique
+  // Foreign key relation removed for mock trip compatibility
+  categories ChecklistCategory[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ChecklistCategory {
+  id          String   @id @default(uuid())
+  name        String
+  checklistId String
+  checklist   TripChecklist @relation(fields: [checklistId], references: [id], onDelete: Cascade)
+  items       ChecklistItem[]
+}
+
+model ChecklistItem {
+  id          String   @id @default(uuid())
+  content     String
+  isCompleted Boolean  @default(false)
+  quantity    Int      @default(1)
+  priority    String?  // "Low", "Medium", "High"
+  notes       String?
+  categoryId  String
+  category    ChecklistCategory @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  order       Int      @default(0)
+}
+
+// ================= BUDGET PLANNER MODULE =================
+model TripBudget {
+  id          String   @id @default(uuid())
+  tripId      String   @unique
+  // Foreign key relation removed for mock trip compatibility
+  currency    String   @default("USD")
+  totalBudget Float    @default(0)
+  expenses    BudgetExpense[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model BudgetExpense {
+  id          String   @id @default(uuid())
+  title       String
+  amount      Float
+  category    String
+  date        DateTime?
+  notes       String?
+  priority    String?  // "Essential", "Nice-to-have"
+  budgetId    String
+  budget      TripBudget @relation(fields: [budgetId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+// ================= TRAVEL JOURNAL MODULE =================
+model TravelJournal {
+  id        String   @id @default(uuid())
+  title     String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  entries   JournalEntry[]
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model JournalEntry {
+  id          String   @id @default(uuid())
+  title       String?
+  content     String
+  mood        String?
+  location    String?
+  journalId   String
+  journal     TravelJournal @relation(fields: [journalId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}

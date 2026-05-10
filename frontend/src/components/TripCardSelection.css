@@ -1,0 +1,40 @@
+.selection-checkbox {
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  padding: 0.4rem;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-primary);
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+
+.selection-checkbox.selected {
+  background: var(--accent-color);
+  border-color: var(--accent-color);
+  color: white;
+}
+.selection-checkbox.selected .icon-inline {
+  color: white;
+}
+
+.floating-post-bar {
+  position: fixed;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem 2rem;
+  z-index: 100;
+  animation: slideUp 0.3s ease;
+}
+
+.floating-post-bar span {
+  font-weight: 600;
+  font-size: 1.1rem;
+}

@@ -1,0 +1,166 @@
+.wishlist-page {
+  width: 100%;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 0 0 2rem 0;
+}
+
+.cover-section {
+  position: relative;
+  width: 100%;
+  height: 40vh;
+  min-height: 300px;
+  border-radius: 20px;
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.cover-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  /* Parallax effect attempt using CSS */
+  transform: translateZ(-1px) scale(1.5);
+}
+
+.cover-overlay {
+  position: absolute;
+  bottom: 2rem;
+  left: 2rem;
+  padding: 1.5rem 2rem;
+  border-radius: 16px;
+  background: rgba(15, 23, 42, 0.7);
+}
+
+.trip-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: white;
+}
+
+.trip-meta {
+  display: flex;
+  gap: 1.5rem;
+  color: #e2e8f0;
+  font-size: 1.1rem;
+}
+
+.trip-meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.trip-content-grid {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 2rem;
+}
+
+.section-block {
+  padding: 1.5rem;
+}
+
+.section-block h2 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.mt-8 { margin-top: 2rem; }
+.mt-4 { margin-top: 1rem; }
+.flex-between { display: flex; justify-content: space-between; align-items: center; }
+.rounded-xl { border-radius: 16px; }
+.overflow-hidden { overflow: hidden; }
+
+/* Timeline styling */
+.timeline-container {
+  position: relative;
+  margin-top: 1.5rem;
+  padding-left: 1rem;
+}
+
+.timeline-container::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 1.5rem;
+  width: 2px;
+  background: var(--glass-border);
+}
+
+.timeline-stop {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  border-radius: 12px;
+  background: rgba(255,255,255,0.05);
+}
+
+.stop-marker {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  z-index: 2;
+  box-shadow: 0 0 10px var(--accent-color);
+}
+
+.stop-content h3 {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+}
+.stop-content p {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
+
+/* Suggestions styling */
+.suggestions-scroll {
+  display: flex;
+  gap: 1rem;
+  overflow-x: auto;
+  padding: 1rem 0;
+}
+
+.suggestion-card {
+  min-width: 200px;
+  border-radius: 12px;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.suggestion-card img {
+  width: 100%;
+  height: 120px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.suggestion-card h4 {
+  font-size: 1.1rem;
+  margin: 0;
+}
+
+.suggestion-card p {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.suggestion-card button {
+  margin-top: 0.5rem;
+}
+
+@media (max-width: 1024px) {
+  .trip-content-grid {
+    grid-template-columns: 1fr;
+  }
+}
